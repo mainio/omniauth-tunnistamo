@@ -99,7 +99,7 @@ def raw_info
 end
 ```
 
-### Personal Information Transmitted From MPASSid
+### Personal Information Transmitted From Tunnistamo
 
 The user's personal information transmitted from Tunnistamo can be found under
 the `:raw_info` key in the OmniAuth extra hash described above.
