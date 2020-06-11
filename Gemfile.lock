@@ -7,14 +7,14 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.0.0)
-      activesupport (= 6.0.0)
-    activesupport (6.0.0)
+    activemodel (6.0.3.1)
+      activesupport (= 6.0.3.1)
+    activesupport (6.0.3.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-      zeitwerk (~> 2.1, >= 2.1.8)
+      zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.0.1)
@@ -24,7 +24,7 @@ GEM
       json
       simplecov
       url
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.6)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.3)
@@ -32,7 +32,7 @@ GEM
     hashdiff (1.0.0)
     hashie (4.1.0)
     httpclient (2.8.3)
-    i18n (1.8.2)
+    i18n (1.8.3)
       concurrent-ruby (~> 1.0)
     json (2.3.0)
     json-jwt (1.13.0)
@@ -43,7 +43,7 @@ GEM
       mini_mime (>= 0.1.1)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.14.0)
+    minitest (5.14.1)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
     omniauth (1.9.1)
@@ -63,8 +63,8 @@ GEM
       validate_email
       validate_url
       webfinger (>= 1.0.1)
-    public_suffix (4.0.3)
-    rack (2.1.1)
+    public_suffix (4.0.5)
+    rack (2.2.2)
     rack-oauth2 (1.14.0)
       activesupport
       attr_required
@@ -98,7 +98,7 @@ GEM
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
     thread_safe (0.3.6)
-    tzinfo (1.2.6)
+    tzinfo (1.2.7)
       thread_safe (~> 0.1)
     url (0.3.2)
     validate_email (0.1.6)
@@ -121,7 +121,7 @@ GEM
       xmlmapper (>= 0.7.3)
     xmlmapper (0.7.3)
       nokogiri (~> 1.5)
-    zeitwerk (2.1.9)
+    zeitwerk (2.3.0)
 
 PLATFORMS
   ruby
