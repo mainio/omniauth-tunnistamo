@@ -3,7 +3,7 @@
 This is an unofficial OmniAuth strategy for authenticating with the Tunnistamo
 identity provider used by cities such as Helsinki and Turku. This gem is mostly
 a configuration wrapper around
-[`omniauth_openid_connect-saml`](https://github.com/m0n9oose/omniauth_openid_connect)
+[`omniauth_openid_connect`](https://github.com/m0n9oose/omniauth_openid_connect)
 which uses [`openid_connect`](https://github.com/nov/openid_connect) for OpenID
 Connect authentication implementation with identity providers, such as
 Tunnistamo.
@@ -51,7 +51,7 @@ https://www.service.fi/users/auth/tunnistamo/callback
 This gem has been only tested and used with Rails applications using Devise, so
 this installation guide only covers that part. In case you are interested to
 learn how you can use this with other frameworks, please refer to the
-[`omniauth_openid_connect-saml`](https://github.com/m0n9oose/omniauth_openid_connect)
+[`omniauth_openid_connect`](https://github.com/m0n9oose/omniauth_openid_connect)
 documentation and apply it to your needs (changing the strategy name to
 `:tunnistamo` and strategy class to `OmniAuth::Strategies::Tunnistamo`).
 
