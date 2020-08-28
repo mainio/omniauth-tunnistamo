@@ -65,7 +65,7 @@ module OmniAuth
         # Pass the ?lang=xx to Tunnistamo
         # Does not actually have any effect right now but maybe some day...
         lang = language_for_openid_connect
-        opts[:lang] = lang if lang
+        opts[:ui_locales] = lang if lang
 
         client.authorization_uri(opts.reject { |_k, v| v.nil? })
       end
