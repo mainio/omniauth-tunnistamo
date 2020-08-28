@@ -70,7 +70,34 @@ module OmniAuth
         client.authorization_uri(opts.reject { |_k, v| v.nil? })
       end
 
+      def end_session_uri
+        return unless end_session_endpoint_is_valid?
+
+        end_session_uri = URI(client_options.end_session_endpoint)
+        end_session_uri.query = encoded_post_logout_query
+        end_session_uri.to_s
+      end
+
     private
+
+      def verify_id_token!(id_token)
+        session['omniauth-tunnistamo.id_token'] = id_token if id_token
+
+        super
+      end
+
+      def encoded_post_logout_query
+        # Store the post logout query because it is fetched multiple times and
+        # the ID token is deleted during the first time.
+        @encoded_post_logout_query ||= begin
+          logout_params = {
+            id_token_hint: session.delete('omniauth-tunnistamo.id_token'),
+            post_logout_redirect_uri: options.post_logout_redirect_uri
+          }.compact
+
+          URI.encode_www_form(logout_params)
+        end
+      end
 
       # Converts a Ruby hash to URI query string.
       def hash_to_query(hash)
