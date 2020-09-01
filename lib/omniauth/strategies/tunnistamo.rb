@@ -121,13 +121,17 @@ module OmniAuth
         nil
       end
 
-      # Determines the correct language for Tunnistamo. Only returns if the
-      # language parameter is set and contains a value accepted by Tunnistamo.
+      # Determines the correct language for Tunnistamo. Returns the langauge
+      # passed through the URL if the language parameter is set and contains a
+      # value accepted by Tunnistamo. Otherwise it will try to fetch the locale
+      # from the I18n class if that is available and returns a locale accepted
+      # by Tunnistamo.
       def language_for_openid_connect
         param = application_language_param
-        return nil unless param
+        return parse_language_value(request.params[param.to_s]) if param
 
-        parse_language_value(request.params[param.to_s])
+        # Default to I18n locale if it is available
+        parse_language_value(I18n.locale.to_s) if Object.const_defined?('I18n')
       end
 
       # Parses a langauge value from the following types of strings:
