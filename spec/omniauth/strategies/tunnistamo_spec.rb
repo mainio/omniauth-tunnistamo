@@ -56,7 +56,7 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
 
     it 'should apply the local options' do
       is_expected.to be_redirect
-      expect(subject.location).to match(%r{^#{auth_server_uri}/openid/authorize\?client_id=#{client_id}&nonce=\w{32}&redirect_uri=https%3A%2F%2Fwww.service.fi%2Fauth%2Ftunnistamo%2Fcallback&response_type=code&scope=openid\+email\+profile&state=\w{32}$})
+      expect(subject.location).to match(%r{^#{auth_server_uri}/openid/authorize\?client_id=#{client_id}&nonce=\w{32}&redirect_uri=https%3A%2F%2Fwww.service.fi%2Fauth%2Ftunnistamo%2Fcallback&response_type=code&scope=openid%20email%20profile&state=\w{32}&ui_locales=en$})
 
       instance = last_request.env['omniauth.strategy']
 
@@ -84,7 +84,7 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
 
       it 'should hit the production metadata URL' do
         is_expected.to be_redirect
-        expect(subject.location).to match(%r{^#{auth_server_uri}/openid/authorize\?client_id=#{client_id}&nonce=\w{32}&redirect_uri=https%3A%2F%2Fwww.service.fi%2Fauth%2Ftunnistamo%2Fcallback&response_type=code&scope=openid\+email\+profile&state=\w{32}$})
+        expect(subject.location).to match(%r{^#{auth_server_uri}/openid/authorize\?client_id=#{client_id}&nonce=\w{32}&redirect_uri=https%3A%2F%2Fwww.service.fi%2Fauth%2Ftunnistamo%2Fcallback&response_type=code&scope=openid%20email%20profile&state=\w{32}&ui_locales=en$})
 
         instance = last_request.env['omniauth.strategy']
 
@@ -119,9 +119,9 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
 
           location = URI.parse(last_response.location)
           if expected_locale.nil?
-            expect(location.query).not_to match(/&lang=#{request_locale}&/)
+            expect(location.query).not_to match(/&ui_locales=#{request_locale}/)
           else
-            expect(location.query).to match(/&lang=#{expected_locale}&/)
+            expect(location.query).to match(/&ui_locales=#{expected_locale}/)
           end
         end
       end
@@ -184,14 +184,15 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
     let(:private_key) { OpenSSL::PKey::RSA.generate(2048) }
     let(:public_key) { private_key.public_key }
     let(:access_token) { 'test_access_token' }
+    let(:now) { Time.now.to_i }
     let(:id_token) do
       ::OpenIDConnect::ResponseObject::IdToken.new(
-        iss: 'http://tunnistamo.test.fi',
+        iss: 'https://tunnistamo.test.fi/openid',
         sub: sub,
-        aud: 's6BhdRkqt3',
+        aud: client_id,
         nonce: nonce,
-        exp: 1_311_281_970,
-        iat: 1_311_280_970
+        exp: now + 1000,
+        iat: now
       )
     end
 
@@ -200,9 +201,13 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
       session['omniauth.state'] = state
       session['omniauth.nonce'] = nonce
 
+      keypair = OpenSSL::PKey::RSA.new(2048)
+      jwk = JSON::JWK.new(keypair)
+      algorithm = 'RS256'
+
       access_token_json = {
         access_token: access_token,
-        id_token: id_token,
+        id_token: id_token.to_jwt(jwk, algorithm),
         token_type: 'Bearer'
       }
 
@@ -211,6 +216,8 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
         "#{auth_server_uri}/openid/token"
       ).with(
         body: {
+          'client_id' => client_id,
+          'client_secret' => client_secret,
           'code' => code,
           'grant_type' => 'authorization_code',
           'redirect_uri' => 'https://www.service.fi/auth/tunnistamo/callback',
@@ -219,6 +226,19 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
       ).to_return(
         status: 200,
         body: JSON.generate(access_token_json),
+        headers: {'Content-Type' => 'application/json'}
+      )
+
+      stub_request(
+        :get,
+        "#{auth_server_uri}/openid/jwks"
+      ) .to_return(
+        status: 200,
+        body: JSON.generate({
+          keys: [
+            jwk.normalize.merge(kid: jwk[:kid], alg: algorithm, use: "sig")
+          ]
+        }),
         headers: {'Content-Type' => 'application/json'}
       )
 
