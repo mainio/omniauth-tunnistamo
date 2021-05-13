@@ -1,20 +1,78 @@
 AllCops:
   TargetRubyVersion: 2.6
 
+Gemspec/DateAssignment:
+  Enabled: true
+
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
 
-Layout/AlignHash:
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+
+Layout/HashAlignment:
   Enabled: false
 
 Layout/DotPosition:
   EnforcedStyle: trailing
 
+Layout/LineLength:
+  AllowURI: true
+  Enabled: false
+
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
-Lint/HandleExceptions:
+Lint/AmbiguousAssignment:
+  Enabled: true
+
+Lint/DeprecatedConstants:
+  Enabled: true
+
+Lint/DuplicateBranch:
+  Enabled: true
+
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+
+Lint/EmptyBlock:
+  Enabled: true
+
+Lint/EmptyClass:
+  Enabled: true
+
+Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: true
+
+Lint/NumberedParameterAssignment:
+  Enabled: true
+
+Lint/OrAssignmentToConstant:
+  Enabled: true
+
+Lint/RedundantDirGlobSort:
+  Enabled: true
+
+Lint/SuppressedException:
   Enabled: false
+
+Lint/SymbolConversion:
+  Enabled: true
+
+Lint/ToEnumArguments:
+  Enabled: true
+
+Lint/TripleQuotes:
+  Enabled: true
+
+Lint/UnexpectedBlockArity:
+  Enabled: true
+
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
 
 Metrics/BlockLength:
   Enabled: false
@@ -23,10 +81,6 @@ Metrics/BlockNesting:
   Max: 2
 
 Metrics/ClassLength:
-  Enabled: false
-
-Metrics/LineLength:
-  AllowURI: true
   Enabled: false
 
 Metrics/MethodLength:
@@ -42,10 +96,16 @@ Metrics/AbcSize:
 
 Naming/FileName:
   Exclude:
-    - lib/omniauth-mpassid.rb
+    - lib/omniauth-tunnistamo.rb
+
+Style/ArgumentsForwarding:
+  Enabled: true
 
 Style/AsciiComments:
   Enabled: false
+
+Style/CollectionCompact:
+  Enabled: true
 
 Style/CollectionMethods:
   PreferredMethods:
@@ -57,6 +117,9 @@ Style/CollectionMethods:
 Style/Documentation:
   Enabled: false
 
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+
 Style/DoubleNegation:
   Enabled: false
 
@@ -66,14 +129,41 @@ Style/EachWithObject:
 Style/Encoding:
   Enabled: false
 
+Style/EndlessMethod:
+  Enabled: true
+
 Style/ExpandPathArguments:
   Enabled: false
+
+Style/HashConversion:
+  Enabled: true
+
+Style/HashExcept:
+  Enabled: true
 
 Style/HashSyntax:
   EnforcedStyle: ruby19_no_mixed_keys
 
+Style/IfWithBooleanLiteralBranches:
+  Enabled: true
+
 Style/Lambda:
   Enabled: false
 
+Style/NegatedIfElseCondition:
+  Enabled: true
+
+Style/NilLambda:
+  Enabled: true
+
 Style/RaiseArgs:
   EnforcedStyle: compact
+
+Style/RedundantArgument:
+  Enabled: true
+
+Style/StringChars:
+  Enabled: true
+
+Style/SwapValues:
+  Enabled: true

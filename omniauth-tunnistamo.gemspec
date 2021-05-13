@@ -37,4 +37,9 @@ Gem::Specification.new do |spec|
 
   # Code coverage
   spec.add_development_dependency 'simplecov', '~> 0.21.2'
+
+  # Code styling
+  spec.add_development_dependency 'rubocop', '~> 1.14.0'
+  spec.add_development_dependency 'rubocop-rake', '~> 0.5.1'
+  spec.add_development_dependency 'rubocop-rspec', '~> 2.3.0'
 end
