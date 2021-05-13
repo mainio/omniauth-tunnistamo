@@ -7,6 +7,7 @@ require 'omniauth-tunnistamo/version'
 Gem::Specification.new do |spec|
   spec.name = 'omniauth-tunnistamo'
   spec.version = OmniAuth::Tunnistamo::VERSION
+  spec.required_ruby_version = '>= 2.6'
   spec.authors = ['Antti Hukkanen']
   spec.email = ['antti.hukkanen@mainiotech.fi']
 

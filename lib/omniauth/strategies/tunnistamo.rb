@@ -67,7 +67,7 @@ module OmniAuth
         lang = language_for_openid_connect
         opts[:ui_locales] = lang if lang
 
-        client.authorization_uri(opts.reject { |_k, v| v.nil? })
+        client.authorization_uri(opts.compact)
       end
 
       def end_session_uri

@@ -36,13 +36,12 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
     # easier testing. Otherwise an external HTTP request would be made when the
     # OmniAuth strategy is configured AND there would need to be a Tunnistamo
     # authentication server always running at that URL.
-    configuration_file = begin
+    configuration_file =
       if auth_server_uri_secured
         'openid_configuration_secured'
       else
         'openid_configuration'
       end
-    end
     stub_request(
       :get,
       "#{auth_server_uri}/openid/.well-known/openid-configuration"
@@ -232,13 +231,15 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
       stub_request(
         :get,
         "#{auth_server_uri}/openid/jwks"
-      ) .to_return(
+      ).to_return(
         status: 200,
-        body: JSON.generate({
-          keys: [
-            jwk.normalize.merge(kid: jwk[:kid], alg: algorithm, use: "sig")
-          ]
-        }),
+        body: JSON.generate(
+          {
+            keys: [
+              jwk.normalize.merge(kid: jwk[:kid], alg: algorithm, use: 'sig')
+            ]
+          }
+        ),
         headers: {'Content-Type' => 'application/json'}
       )
 
