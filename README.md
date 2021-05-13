@@ -1,5 +1,8 @@
 # OmniAuth Tunnistamo (OpenID Connect)
 
+[![Build Status](https://github.com/mainio/omniauth-tunnistamo/actions/workflows/ci_omniauth_tunnistamo.yml/badge.svg)](https://github.com/mainio/omniauth-tunnistamo/actions)
+[![codecov](https://codecov.io/gh/mainio/omniauth-tunnistamo/branch/master/graph/badge.svg)](https://codecov.io/gh/mainio/omniauth-tunnistamo)
+
 This is an unofficial OmniAuth strategy for authenticating with the Tunnistamo
 identity provider used by cities such as Helsinki and Turku. This gem is mostly
 a configuration wrapper around
