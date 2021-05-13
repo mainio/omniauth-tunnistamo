@@ -99,12 +99,6 @@ module OmniAuth
         end
       end
 
-      # Converts a Ruby hash to URI query string.
-      def hash_to_query(hash)
-        query = hash.map { |key, val| "#{key}=#{val}" }.join('&')
-        query.length.positive? ? "?#{query}" : ''
-      end
-
       # Determines the application language parameter from one of the configured
       # parameters. Only returns if the parameter is set and contains a value
       # accepted by Tunnistamo.
