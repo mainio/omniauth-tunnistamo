@@ -20,10 +20,10 @@ GEM
     aes_key_wrap (1.1.0)
     ast (2.4.2)
     attr_required (1.0.1)
-    bindata (2.4.9)
+    bindata (2.4.10)
     codecov (0.5.2)
       simplecov (>= 0.15, < 0.22)
-    concurrent-ruby (1.1.8)
+    concurrent-ruby (1.1.9)
     crack (0.4.5)
       rexml
     diff-lcs (1.4.4)
@@ -40,9 +40,9 @@ GEM
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     mini_mime (1.1.0)
-    mini_portile2 (2.5.1)
+    mini_portile2 (2.5.3)
     minitest (5.14.4)
-    nokogiri (1.11.3)
+    nokogiri (1.11.7)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     omniauth (1.9.1)
@@ -68,7 +68,7 @@ GEM
     public_suffix (4.0.6)
     racc (1.5.2)
     rack (2.2.3)
-    rack-oauth2 (1.16.0)
+    rack-oauth2 (1.17.0)
       activesupport
       attr_required
       httpclient
@@ -102,7 +102,7 @@ GEM
       rubocop-ast (>= 1.5.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.5.0)
+    rubocop-ast (1.7.0)
       parser (>= 3.0.1.1)
     rubocop-rake (0.5.1)
       rubocop
@@ -132,7 +132,7 @@ GEM
     webfinger (1.1.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.12.2)
+    webmock (3.13.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
