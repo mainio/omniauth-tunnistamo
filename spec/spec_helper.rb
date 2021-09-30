@@ -17,7 +17,10 @@ TEST_LOGGER = Logger.new(StringIO.new)
 OmniAuth.config.logger = TEST_LOGGER
 OmniAuth.config.full_host = 'https://www.service.fi'
 
-WebMock.disable_net_connect!(allow_localhost: true)
+WebMock.disable_net_connect!(
+  allow_localhost: true,
+  allow: 'acme-v02.api.letsencrypt.org'
+)
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods

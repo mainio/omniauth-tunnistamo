@@ -50,6 +50,36 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
     ), headers: {})
   end
 
+  # Dependencies using the http_client gem need to be configured properly in
+  # order for them to use the correct root certificate chain. Otherwise it would
+  # use the chain shipped with the http_client gem instead which would cause
+  # expiry or missing issuer certificate errors for Let's Encrypt certificates.
+  #
+  # certificate verify failed (unable to get local issuer certificate)
+  # certificate verify failed (certificate has expired)
+  #
+  # For more information, see:
+  # https://letsencrypt.org/docs/dst-root-ca-x3-expiration-september-2021/
+  #
+  # And the relevant lines in the http_client gem:
+  # https://github.com/nahi/httpclient/blob/4658227a46f7caa633ef8036f073bbd1f0a955a2/lib/httpclient/ssl_config.rb#L426-L429
+  describe 'valid root certificates for http_client dependencies' do
+    subject { described_class.new(app, strategy_options) }
+
+    # The config method needs to be called for the HTTPClient configuratios to
+    # apply.
+    before { subject.config }
+
+    [SWD, WebFinger, OpenIDConnect].each do |dependency|
+      it "connects successfully with #{dependency.name}" do
+        expect do
+          # Fetch any domain using the Let's encrypt certificate
+          dependency.http_client.get_content('https://acme-v02.api.letsencrypt.org/directory')
+        end.not_to raise_error
+      end
+    end
+  end
+
   describe 'GET /auth/tunnistamo' do
     subject { get '/auth/tunnistamo' }
 
