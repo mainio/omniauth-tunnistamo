@@ -81,7 +81,7 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
   end
 
   describe 'GET /auth/tunnistamo' do
-    subject { get '/auth/tunnistamo' }
+    subject { post '/auth/tunnistamo' }
 
     it 'should apply the local options' do
       is_expected.to be_redirect
@@ -141,7 +141,7 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
       let(:lang_parameter) { 'locale' }
 
       shared_examples 'lang added' do |request_locale, expected_locale|
-        subject { get "/auth/tunnistamo?#{lang_parameter}=#{request_locale}" }
+        subject { post "/auth/tunnistamo?#{lang_parameter}=#{request_locale}" }
 
         it do
           is_expected.to be_redirect
