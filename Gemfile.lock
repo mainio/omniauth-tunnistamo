@@ -29,7 +29,7 @@ GEM
     diff-lcs (1.4.4)
     docile (1.4.0)
     hashdiff (1.0.1)
-    hashie (4.1.0)
+    hashie (5.0.0)
     httpclient (2.8.3)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
@@ -45,12 +45,12 @@ GEM
     nokogiri (1.11.7)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
-    omniauth (1.9.1)
+    omniauth (2.1.1)
       hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
-    omniauth_openid_connect (0.3.5)
-      addressable (~> 2.5)
-      omniauth (~> 1.9)
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth_openid_connect (0.6.1)
+      omniauth (>= 1.9, < 3)
       openid_connect (~> 1.1)
     openid_connect (1.2.0)
       activemodel
@@ -67,13 +67,15 @@ GEM
       ast (~> 2.4.1)
     public_suffix (4.0.6)
     racc (1.5.2)
-    rack (2.2.3)
+    rack (2.2.6.2)
     rack-oauth2 (1.17.0)
       activesupport
       attr_required
       httpclient
       json-jwt (>= 1.11.0)
       rack (>= 2.1.0)
+    rack-protection (3.0.5)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rainbow (3.0.0)
