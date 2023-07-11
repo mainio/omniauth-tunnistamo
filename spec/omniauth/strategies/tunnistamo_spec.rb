@@ -47,21 +47,27 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
       "#{auth_server_uri}/openid/.well-known/openid-configuration"
     ).to_return(status: 200, body: File.new(
       support_filepath(configuration_file)
-    ), headers: {})
+    ), headers: {'Content-Type' => 'application/json'})
   end
 
-  # Dependencies using the http_client gem need to be configured properly in
-  # order for them to use the correct root certificate chain. Otherwise it would
-  # use the chain shipped with the http_client gem instead which would cause
-  # expiry or missing issuer certificate errors for Let's Encrypt certificates.
+  # Before the underlying libraries used to use the `http_client` gem to perform
+  # the HTTP requests. There was a bug with this gem as it used expired root
+  # certificates shipped within the gem itself. This caused any underlying
+  # identity service using Let's Encrypt certificates not to work properly.
   #
-  # certificate verify failed (unable to get local issuer certificate)
-  # certificate verify failed (certificate has expired)
+  # The newer versions are using Faraday as their HTTP client which does not
+  # have the same problem. This spec is maintained here to ensure any
+  # connections to the Let's Encrypt secured services will work also in the
+  # future.
+  #
+  # The errors that used to be seen with the `http_client` gem:
+  #   certificate verify failed (unable to get local issuer certificate)
+  #   certificate verify failed (certificate has expired)
   #
   # For more information, see:
   # https://letsencrypt.org/docs/dst-root-ca-x3-expiration-september-2021/
   #
-  # And the relevant lines in the http_client gem:
+  # The relevant lines in the http_client gem:
   # https://github.com/nahi/httpclient/blob/4658227a46f7caa633ef8036f073bbd1f0a955a2/lib/httpclient/ssl_config.rb#L426-L429
   describe 'valid root certificates for http_client dependencies' do
     subject { described_class.new(app, strategy_options) }
@@ -74,14 +80,14 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
       it "connects successfully with #{dependency.name}" do
         expect do
           # Fetch any domain using the Let's encrypt certificate
-          dependency.http_client.get_content('https://acme-v02.api.letsencrypt.org/directory')
+          dependency.http_client.get('https://acme-v02.api.letsencrypt.org/directory')
         end.not_to raise_error
       end
     end
   end
 
-  describe 'GET /auth/tunnistamo' do
-    subject { get '/auth/tunnistamo' }
+  describe 'POST /auth/tunnistamo' do
+    subject { post '/auth/tunnistamo' }
 
     it 'should apply the local options' do
       is_expected.to be_redirect
@@ -141,7 +147,7 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
       let(:lang_parameter) { 'locale' }
 
       shared_examples 'lang added' do |request_locale, expected_locale|
-        subject { get "/auth/tunnistamo?#{lang_parameter}=#{request_locale}" }
+        subject { post "/auth/tunnistamo?#{lang_parameter}=#{request_locale}" }
 
         it do
           is_expected.to be_redirect
@@ -297,7 +303,7 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
       )
 
       # Finally, request the callback when the stubs are in place
-      get(
+      post(
         '/auth/tunnistamo/callback',
         code: code,
         state: state,
@@ -318,8 +324,8 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
     end
   end
 
-  describe 'GET /auth/tunnistamo/logout' do
-    subject { get '/auth/tunnistamo/logout' }
+  describe 'POST /auth/tunnistamo/logout' do
+    subject { post '/auth/tunnistamo/logout' }
 
     it do
       is_expected.to be_redirect
