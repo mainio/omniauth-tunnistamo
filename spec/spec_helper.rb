@@ -15,9 +15,7 @@ require 'base64'
 
 TEST_LOGGER = Logger.new(StringIO.new)
 OmniAuth.config.logger = TEST_LOGGER
-# rubocop:disable Lint/EmptyBlock
 OmniAuth.config.request_validation_phase = proc {}
-# rubocop:enable Lint/EmptyBlock
 OmniAuth.config.full_host = 'https://www.service.fi'
 
 WebMock.disable_net_connect!(
@@ -34,5 +32,5 @@ def support_filepath(filename)
 end
 
 def support_file_io(filename)
-  IO.read(support_filepath(filename))
+  File.read(support_filepath(filename))
 end

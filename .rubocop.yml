@@ -1,8 +1,51 @@
-AllCops:
-  TargetRubyVersion: 2.6
+require:
+  - rubocop-rake
+  - rubocop-rspec
 
-Gemspec/DateAssignment:
+AllCops:
+  TargetRubyVersion: 2.7
+
+Capybara/MatchStyle:
   Enabled: true
+
+Capybara/NegationMatcher:
+  Enabled: true
+
+Capybara/SpecificActions:
+  Enabled: true
+
+Capybara/SpecificFinders:
+  Enabled: true
+
+Capybara/SpecificMatcher:
+  Enabled: true
+
+FactoryBot/AssociationStyle:
+  Enabled: true
+
+FactoryBot/ConsistentParenthesesStyle:
+  Enabled: true
+
+FactoryBot/FactoryAssociationWithStrategy:
+  Enabled: true
+
+FactoryBot/FactoryNameStyle:
+  Enabled: true
+
+FactoryBot/RedundantFactoryOption:
+  Enabled: true
+
+FactoryBot/SyntaxMethods:
+  Enabled: true
+
+Gemspec/DeprecatedAttributeAssignment:
+  Enabled: true
+
+Gemspec/DevelopmentDependencies:
+  Enabled: true
+
+Gemspec/RequireMFA:
+  Enabled: false
 
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
@@ -20,16 +63,40 @@ Layout/LineLength:
   AllowURI: true
   Enabled: false
 
+Layout/LineContinuationLeadingSpace:
+  Enabled: true
+
+Layout/LineContinuationSpacing:
+  Enabled: true
+
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: true
+
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
 Lint/AmbiguousAssignment:
   Enabled: true
 
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+
+Lint/AmbiguousRange:
+  Enabled: true
+
+Lint/ConstantOverwrittenInRescue:
+  Enabled: true
+
 Lint/DeprecatedConstants:
   Enabled: true
 
 Lint/DuplicateBranch:
+  Enabled: true
+
+Lint/DuplicateMagicComment:
+  Enabled: true
+
+Lint/DuplicateMatchPattern:
   Enabled: true
 
 Lint/DuplicateRegexpCharacterClassElement:
@@ -41,7 +108,19 @@ Lint/EmptyBlock:
 Lint/EmptyClass:
   Enabled: true
 
+Lint/EmptyInPattern:
+  Enabled: true
+
+Lint/IncompatibleIoSelectWithFiberScheduler:
+  Enabled: true
+
 Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+
+Lint/MixedCaseRange:
+  Enabled: true
+
+Lint/NonAtomicFileOperation:
   Enabled: true
 
 Lint/NoReturnInBeginEndBlocks:
@@ -54,6 +133,18 @@ Lint/OrAssignmentToConstant:
   Enabled: true
 
 Lint/RedundantDirGlobSort:
+  Enabled: true
+
+Lint/RedundantRegexpQuantifiers:
+  Enabled: true
+
+Lint/RefinementImportMethods:
+  Enabled: true
+
+Lint/RequireRangeParentheses:
+  Enabled: true
+
+Lint/RequireRelativeSelfPath:
   Enabled: true
 
 Lint/SuppressedException:
@@ -74,6 +165,12 @@ Lint/UnexpectedBlockArity:
 Lint/UnmodifiedReduceAccumulator:
   Enabled: true
 
+Lint/UselessRescue:
+  Enabled: true
+
+Lint/UselessRuby2Keywords:
+  Enabled: true
+
 Metrics/BlockLength:
   Enabled: false
 
@@ -82,6 +179,9 @@ Metrics/BlockNesting:
 
 Metrics/ClassLength:
   Enabled: false
+
+Metrics/CollectionLiteralLength:
+  Enabled: true
 
 Metrics/MethodLength:
   CountComments: false
@@ -94,11 +194,105 @@ Metrics/ParameterLists:
 Metrics/AbcSize:
   Enabled: false
 
+Naming/BlockForwarding:
+  Enabled: true
+
 Naming/FileName:
   Exclude:
     - lib/omniauth-tunnistamo.rb
 
+RSpec/BeEmpty:
+  Enabled: true
+
+RSpec/BeEq:
+  Enabled: true
+
+RSpec/BeNil:
+  Enabled: true
+
+RSpec/ChangeByZero:
+  Enabled: true
+
+RSpec/ContainExactly:
+  Enabled: true
+
+RSpec/DuplicatedMetadata:
+  Enabled: true
+
+RSpec/ExampleLength:
+  Max: 20
+
+RSpec/ExcessiveDocstringSpacing:
+  Enabled: true
+
+RSpec/FilePath:
+  Exclude:
+    - spec/omniauth/strategies/tunnistamo_spec.rb
+
+RSpec/IdenticalEqualityAssertion:
+  Enabled: true
+
+RSpec/IndexedLet:
+  Enabled: true
+
+RSpec/MatchArray:
+  Enabled: true
+
+RSpec/MultipleExpectations:
+  Max: 10
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 20
+
+RSpec/NestedGroups:
+  Max: 10
+
+RSpec/NoExpectationExample:
+  Enabled: true
+
+RSpec/PendingWithoutReason:
+  Enabled: true
+
+RSpec/RedundantAround:
+  Enabled: true
+
+RSpec/SkipBlockInsideExample:
+  Enabled: true
+
+RSpec/SortMetadata:
+  Enabled: true
+
+RSpec/SubjectDeclaration:
+  Enabled: true
+
+RSpec/VerifiedDoubleReference:
+  Enabled: true
+
+RSpec/Rails/AvoidSetupHook:
+  Enabled: true
+
+RSpec/Rails/HaveHttpStatus:
+  Enabled: true
+
+RSpec/Rails/InferredSpecType:
+  Enabled: true
+
+RSpec/Rails/MinitestAssertions:
+  Enabled: true
+
+RSpec/Rails/TravelAround:
+  Enabled: true
+
+Security/CompoundHash:
+  Enabled: true
+
+Security/IoMethods:
+  Enabled: true
+
 Style/ArgumentsForwarding:
+  Enabled: true
+
+Style/ArrayIntersect:
   Enabled: true
 
 Style/AsciiComments:
@@ -114,6 +308,18 @@ Style/CollectionMethods:
     find:     'detect'
     find_all: 'select'
 
+Style/ComparableClamp:
+  Enabled: true
+
+Style/ConcatArrayLiterals:
+  Enabled: true
+
+Style/DataInheritance:
+  Enabled: true
+
+Style/DirEmpty:
+  Enabled: true
+
 Style/Documentation:
   Enabled: false
 
@@ -126,14 +332,35 @@ Style/DoubleNegation:
 Style/EachWithObject:
   Enabled: false
 
+Style/EmptyHeredoc:
+  Enabled: true
+
 Style/Encoding:
   Enabled: false
 
 Style/EndlessMethod:
   Enabled: true
 
+Style/EnvHome:
+  Enabled: true
+
+Style/ExactRegexpMatch:
+  Enabled: true
+
 Style/ExpandPathArguments:
   Enabled: false
+
+Style/FetchEnvVar:
+  Enabled: true
+
+Style/FileEmpty:
+  Enabled: true
+
+Style/FileRead:
+  Enabled: true
+
+Style/FileWrite:
+  Enabled: true
 
 Style/HashConversion:
   Enabled: true
@@ -147,19 +374,109 @@ Style/HashSyntax:
 Style/IfWithBooleanLiteralBranches:
   Enabled: true
 
+Style/InPatternThen:
+  Enabled: true
+
 Style/Lambda:
   Enabled: false
+
+Style/MagicCommentFormat:
+  Enabled: true
+
+Style/MapCompactWithConditionalBlock:
+  Enabled: true
+
+Style/MapToHash:
+  Enabled: true
+
+Style/MapToSet:
+  Enabled: true
+
+Style/MinMaxComparison:
+  Enabled: true
+
+Style/MultilineInPatternThen:
+  Enabled: true
 
 Style/NegatedIfElseCondition:
   Enabled: true
 
+Style/NestedFileDirname:
+  Enabled: true
+
 Style/NilLambda:
+  Enabled: true
+
+Style/NumberedParameters:
+  Enabled: true
+
+Style/NumberedParametersLimit:
+  Enabled: true
+
+Style/ObjectThen:
+  Enabled: true
+
+Style/OpenStructUse:
+  Enabled: true
+
+Style/OperatorMethodCall:
+  Enabled: true
+
+Style/QuotedSymbols:
   Enabled: true
 
 Style/RaiseArgs:
   EnforcedStyle: compact
 
 Style/RedundantArgument:
+  Enabled: true
+
+Style/RedundantArrayConstructor:
+  Enabled: true
+
+Style/RedundantConstantBase:
+  Enabled: true
+
+Style/RedundantCurrentDirectoryInPath:
+  Enabled: true
+
+Style/RedundantDoubleSplatHashBraces:
+  Enabled: true
+
+Style/RedundantEach:
+  Enabled: true
+
+Style/RedundantFilterChain:
+  Enabled: true
+
+Style/RedundantHeredocDelimiterQuotes:
+  Enabled: true
+
+Style/RedundantInitialize:
+  Enabled: true
+
+Style/RedundantLineContinuation:
+  Enabled: true
+
+Style/RedundantRegexpArgument:
+  Enabled: true
+
+Style/RedundantRegexpConstructor:
+  Enabled: true
+
+Style/RedundantSelfAssignmentBranch:
+  Enabled: true
+
+Style/RedundantStringEscape:
+  Enabled: true
+
+Style/ReturnNilInPredicateMethodDefinition:
+  Enabled: true
+
+Style/SelectByRegexp:
+  Enabled: true
+
+Style/YAMLFileRead:
   Enabled: true
 
 Style/StringChars:
