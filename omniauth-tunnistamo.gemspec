@@ -26,21 +26,4 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'omniauth_openid_connect', '~> 0.7'
-
-  # Basic development dependencies
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec', '~> 3.12'
-
-  # Testing the requests
-  spec.add_development_dependency 'rack-test', '~> 2.1.0'
-  spec.add_development_dependency 'webmock', '~> 3.18'
-  spec.add_development_dependency 'xmlenc', '~> 0.8.0'
-
-  # Code coverage
-  spec.add_development_dependency 'simplecov', '~> 0.22.0'
-
-  # Code styling
-  spec.add_development_dependency 'rubocop', '~> 1.54.1'
-  spec.add_development_dependency 'rubocop-rake', '~> 0.6.0'
-  spec.add_development_dependency 'rubocop-rspec', '~> 2.22.0'
 end

@@ -29,7 +29,7 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
   let(:auth_server_uri_secured) { auth_server_uri =~ %r{^https://} }
   let(:client_id) { 'client_id' }
   let(:client_secret) { 'client_secret' }
-  let(:strategy) { [OmniAuth::Strategies::Tunnistamo, strategy_options] }
+  let(:strategy) { [described_class, strategy_options] }
 
   before do
     # Stub the openid configuration to return the locally stored metadata for
@@ -70,11 +70,11 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
   # The relevant lines in the http_client gem:
   # https://github.com/nahi/httpclient/blob/4658227a46f7caa633ef8036f073bbd1f0a955a2/lib/httpclient/ssl_config.rb#L426-L429
   describe 'valid root certificates for http_client dependencies' do
-    subject { described_class.new(app, strategy_options) }
+    subject(:tunnistamo) { described_class.new(app, strategy_options) }
 
-    # The config method needs to be called for the HTTPClient configuratios to
+    # The config method needs to be called for the client configurations to
     # apply.
-    before { subject.config }
+    before { tunnistamo.config }
 
     [SWD, WebFinger, OpenIDConnect].each do |dependency|
       it "connects successfully with #{dependency.name}" do
@@ -87,11 +87,13 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
   end
 
   describe 'POST /auth/tunnistamo' do
-    subject { post '/auth/tunnistamo' }
+    subject { result }
 
-    it 'should apply the local options' do
-      is_expected.to be_redirect
-      expect(subject.location).to match(%r{^#{auth_server_uri}/openid/authorize\?client_id=#{client_id}&nonce=\w{32}&redirect_uri=https%3A%2F%2Fwww.service.fi%2Fauth%2Ftunnistamo%2Fcallback&response_type=code&scope=openid%20email%20profile&state=\w{32}&ui_locales=en$})
+    let(:result) { post '/auth/tunnistamo' }
+
+    it 'applies the local options' do
+      expect(result).to be_redirect
+      expect(result.location).to match(%r{^#{auth_server_uri}/openid/authorize\?client_id=#{client_id}&nonce=\w{32}&redirect_uri=https%3A%2F%2Fwww.service.fi%2Fauth%2Ftunnistamo%2Fcallback&response_type=code&scope=openid%20email%20profile&state=\w{32}&ui_locales=en$})
 
       instance = last_request.env['omniauth.strategy']
 
@@ -117,9 +119,9 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
     context 'with insecure server URI' do
       let(:auth_server_uri) { 'http://tunnistamo.test.fi' }
 
-      it 'should hit the production metadata URL' do
-        is_expected.to be_redirect
-        expect(subject.location).to match(%r{^#{auth_server_uri}/openid/authorize\?client_id=#{client_id}&nonce=\w{32}&redirect_uri=https%3A%2F%2Fwww.service.fi%2Fauth%2Ftunnistamo%2Fcallback&response_type=code&scope=openid%20email%20profile&state=\w{32}&ui_locales=en$})
+      it 'hits the production metadata URL' do
+        expect(result).to be_redirect
+        expect(result.location).to match(%r{^#{auth_server_uri}/openid/authorize\?client_id=#{client_id}&nonce=\w{32}&redirect_uri=https%3A%2F%2Fwww.service.fi%2Fauth%2Ftunnistamo%2Fcallback&response_type=code&scope=openid%20email%20profile&state=\w{32}&ui_locales=en$})
 
         instance = last_request.env['omniauth.strategy']
 
@@ -150,7 +152,7 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
         subject { post "/auth/tunnistamo?#{lang_parameter}=#{request_locale}" }
 
         it do
-          is_expected.to be_redirect
+          expect(subject).to be_redirect
 
           location = URI.parse(last_response.location)
           if expected_locale.nil?
@@ -221,7 +223,7 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
     let(:access_token) { 'test_access_token' }
     let(:now) { Time.now.to_i }
     let(:id_token) do
-      ::OpenIDConnect::ResponseObject::IdToken.new(
+      OpenIDConnect::ResponseObject::IdToken.new(
         iss: 'https://tunnistamo.test.fi/openid',
         sub: sub,
         aud: client_id,
@@ -325,11 +327,13 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
   end
 
   describe 'POST /auth/tunnistamo/logout' do
-    subject { post '/auth/tunnistamo/logout' }
+    subject { result }
+
+    let(:result) { post '/auth/tunnistamo/logout' }
 
     it do
-      is_expected.to be_redirect
-      expect(subject.location).to match(%r{^#{auth_server_uri}/openid/end-session\?post_logout_redirect_uri=https%3A%2F%2Fwww.service.fi$})
+      expect(result).to be_redirect
+      expect(result.location).to match(%r{^#{auth_server_uri}/openid/end-session\?post_logout_redirect_uri=https%3A%2F%2Fwww.service.fi$})
     end
   end
 end

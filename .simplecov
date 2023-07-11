@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 SimpleCov.start do
-  root ENV['ENGINE_ROOT']
+  root ENV.fetch('ENGINE_ROOT', nil)
 
   add_filter 'lib/omniauth-mpassid/version.rb'
   add_filter '/spec'
