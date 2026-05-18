@@ -4,7 +4,7 @@ require 'rspec/core/rake_task'
 
 # Run all tests, with coverage report
 RSpec::Core::RakeTask.new(:coverage) do |t|
-  ENV['CODECOV'] = '1'
+  ENV['SIMPLECOV'] = '1'
   t.verbose = false
 end
 
