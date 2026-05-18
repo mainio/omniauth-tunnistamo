@@ -1,14 +1,20 @@
-require:
+plugins:
   - rubocop-rake
   - rubocop-rspec
+  - rubocop-capybara
+  - rubocop-factory_bot
 
 AllCops:
   TargetRubyVersion: 2.7
+  NewCops: enable
 
-Capybara/MatchStyle:
+Capybara/AssertStyle:
   Enabled: true
 
-Capybara/NegationMatcher:
+Capybara/RSpec/MatchStyle:
+  Enabled: true
+
+Capybara/RSpec/NegationMatcher:
   Enabled: true
 
 Capybara/SpecificActions:
@@ -17,7 +23,7 @@ Capybara/SpecificActions:
 Capybara/SpecificFinders:
   Enabled: true
 
-Capybara/SpecificMatcher:
+Capybara/RSpec/SpecificMatcher:
   Enabled: true
 
 FactoryBot/AssociationStyle:
@@ -225,7 +231,7 @@ RSpec/ExampleLength:
 RSpec/ExcessiveDocstringSpacing:
   Enabled: true
 
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
   Exclude:
     - spec/omniauth/strategies/tunnistamo_spec.rb
 
@@ -266,21 +272,6 @@ RSpec/SubjectDeclaration:
   Enabled: true
 
 RSpec/VerifiedDoubleReference:
-  Enabled: true
-
-RSpec/Rails/AvoidSetupHook:
-  Enabled: true
-
-RSpec/Rails/HaveHttpStatus:
-  Enabled: true
-
-RSpec/Rails/InferredSpecType:
-  Enabled: true
-
-RSpec/Rails/MinitestAssertions:
-  Enabled: true
-
-RSpec/Rails/TravelAround:
   Enabled: true
 
 Security/CompoundHash:
