@@ -81,7 +81,22 @@ module OmniAuth
     private
 
       def verify_id_token!(id_token)
-        session['omniauth-tunnistamo.id_token'] = id_token if id_token
+        if id_token
+          # In order to avoid storing large amounts of data in the session
+          # cookie, only store the "aud" claim from the JWT token as this is the
+          # only detail needed by the receiving endpoint:
+          # https://github.com/City-of-Turku/tunnistamo/blob/55782f13c824a95c9dbef7c2928a621fc6466116/auth_backends/suomifi.py#L362
+          # https://github.com/juanifioren/django-oidc-provider/blob/f8dbf990975bdca2263bcaf0492c2af6dde65ed1/oidc_provider/lib/utils/token.py#L125-L126
+          #
+          # If we would store the whole ID token in the session cookie, it could
+          # lead to `ActionDispatch::Cookies::CookieOverflow` because Decidim
+          # itself allows redirect URIs up to 3 KB in size and the maximum size
+          # for the cookie is 4 KB. The ID token payload could well exceed 1 KB
+          # which would cause this situation.
+          decoded = JSON::JWT.decode(id_token, :skip_verification)
+          id_token_hint = JSON::JWT.new('aud' => decoded['aud'])
+          session['omniauth-tunnistamo.id_token'] = id_token_hint.to_s
+        end
 
         super
       end

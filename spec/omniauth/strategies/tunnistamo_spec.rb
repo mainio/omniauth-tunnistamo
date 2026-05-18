@@ -324,6 +324,15 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
 
       expect(auth[:extra][:raw_info][:birthdate]).to eq('1975-12-31')
     end
+
+    it 'stores the light ID token hint in the session' do
+      expect(session['omniauth-tunnistamo.id_token']).to be_present
+
+      jwt = JSON::JWT.decode(session['omniauth-tunnistamo.id_token'], :skip_verification)
+      expect(jwt.keys).to eq(%w[aud])
+
+      expect(jwt['aud']).to eq(client_id)
+    end
   end
 
   describe 'POST /auth/tunnistamo/logout' do
@@ -334,6 +343,21 @@ describe OmniAuth::Strategies::Tunnistamo, type: :strategy do
     it do
       expect(result).to be_redirect
       expect(result.location).to match(%r{^#{auth_server_uri}/openid/end-session\?post_logout_redirect_uri=https%3A%2F%2Fwww.service.fi$})
+    end
+
+    context 'when the ID token is stored within the session' do
+      let(:encoded_id_token) { JSON::JWT.new('aud' => client_id).to_s }
+
+      before do
+        # Initiate the session
+        get '/'
+        session['omniauth-tunnistamo.id_token'] = encoded_id_token
+      end
+
+      it 'passes the token stored within the session to the request' do
+        expect(result).to be_redirect
+        expect(result.location).to match(%r{^#{auth_server_uri}/openid/end-session\?id_token_hint=#{encoded_id_token}&post_logout_redirect_uri=https%3A%2F%2Fwww.service.fi$})
+      end
     end
   end
 end
